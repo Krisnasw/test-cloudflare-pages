@@ -51,6 +51,13 @@ const indexRoute = createRoute({
   },
 })
 
+interface PostData {
+  userId: number
+  id: number
+  title: string
+  body: string
+}
+
 const apiDataRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/api-data',
@@ -59,7 +66,7 @@ const apiDataRoute = createRoute({
     // Simulate some check before loading
     await new Promise(resolve => setTimeout(resolve, 50))
   },
-  loader: async () => {
+  loader: async (): Promise<PostData> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/1`)
     if (!response.ok) {
       throw new Error('Failed to fetch data')
@@ -67,7 +74,7 @@ const apiDataRoute = createRoute({
     return response.json()
   },
   component: function ApiData() {
-    const data = apiDataRoute.useLoaderData()
+    const data = apiDataRoute.useLoaderData() as PostData
 
     return (
       <div className="page">
