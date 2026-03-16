@@ -1,4 +1,4 @@
-name = "react-vite-cf"
+name = 'test-cloudflare-pages'
 compatibility_date = "2026-03-13"
 
 main = "./worker/index.ts"
