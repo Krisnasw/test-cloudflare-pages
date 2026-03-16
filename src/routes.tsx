@@ -2,10 +2,11 @@ import { createRouter, createRootRoute, createRoute, Outlet } from '@tanstack/re
 
 // Root route component
 function RootComponent() {
+  const appTitle = import.meta.env.VITE_APP_TITLE || 'Default Title'
   return (
     <div className="app-container">
       <nav className="navbar">
-        <a href="/" className="nav-brand">My App</a>
+        <a href="/" className="nav-brand">{appTitle}</a>
         <div className="nav-links">
           <a href="/">Home</a>
           <a href="/api-data">API Data</a>
