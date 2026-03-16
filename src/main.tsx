@@ -1,10 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App'
-import './App.css'
+import { hydrateRoot, createRoot } from 'react-dom/client'
+import { RouterProvider } from '@tanstack/react-router'
+import { router } from './routes'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-)
+// Check if we're hydrating (server-rendered content exists)
+const root = document.getElementById('root')
+const hasContent = root?.hasChildNodes()
+
+if (hasContent) {
+  // SSR: hydrate the pre-rendered content
+  hydrateRoot(root!, <RouterProvider router={router} />)
+} else {
+  // CSR: mount fresh
+  createRoot(root!).render(<RouterProvider router={router} />)
+}
