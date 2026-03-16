@@ -2,3 +2,8 @@ name = 'test-cloudflare-pages'
 compatibility_date = "2026-03-13"
 
 main = "./worker/index.ts"
+
+[observability]
+[observability.logs]
+enabled = true
+invocation_logs = true
