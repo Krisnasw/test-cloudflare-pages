@@ -1,8 +1,6 @@
 name = 'test-cloudflare-pages'
 compatibility_date = "2026-03-13"
 
-main = "./worker/index.ts"
-
 [observability]
 enabled = false
 head_sampling_rate = 1

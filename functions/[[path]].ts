@@ -1,12 +1,14 @@
-interface Env {
-  ASSETS: Fetcher
-}
+export async function onRequest(context) {
+  const { request } = context
+  const url = new URL(request.url)
+  const pathname = url.pathname
 
-const APP_TITLE = 'Unicorn Test Deploy'
-const API_URL = 'https://jsonplaceholder.typicode.com'
+  const APP_TITLE = 'Unicorn Test Deploy'
+  const API_URL = 'https://jsonplaceholder.typicode.com'
 
-// Inline SSR HTML for the home page
-const SSR_HTML = `<!doctype html>
+  // SSR route - return pre-rendered HTML
+  if (pathname === '/') {
+    const html = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -44,50 +46,23 @@ const SSR_HTML = `<!doctype html>
         </main>
       </div>
     </div>
-    <script type="module" crossorigin src="/assets/index-2MEQplgz.js"></script>
   </body>
 </html>`
 
-export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    const url = new URL(request.url)
-    const pathname = url.pathname
+    return new Response(html, {
+      headers: { 'content-type': 'text/html' }
+    })
+  }
 
-    // SSR route - return pre-rendered HTML
-    if (pathname === '/') {
-      return new Response(SSR_HTML, {
-        headers: { 'content-type': 'text/html' }
-      })
-    }
+  // API routes - proxy to external
+  if (pathname.startsWith('/api/')) {
+    const target = pathname.replace('/api', '')
+    const response = await fetch(`${API_URL}${target}`)
+    return new Response(response.body, {
+      headers: { 'content-type': 'application/json' }
+    })
+  }
 
-    // CSR routes - serve index.html with Tailwind CDN
-    if (pathname === '/data' || pathname.startsWith('/data')) {
-      try {
-        const indexResponse = await env.ASSETS.fetch(new URL('https://localhost/index.html'))
-        const html = await indexResponse.text()
-        // Inject Tailwind CDN for styling
-        const enhancedHtml = html.replace(
-          '<head>',
-          '<head>\n    <script src="https://cdn.tailwindcss.com"></script>'
-        )
-        return new Response(enhancedHtml, {
-          headers: { 'content-type': 'text/html' }
-        })
-      } catch {
-        return env.ASSETS.fetch(request)
-      }
-    }
-
-    // API routes - proxy to external
-    if (pathname.startsWith('/api/')) {
-      const target = pathname.replace('/api', '')
-      const response = await fetch(`https://jsonplaceholder.typicode.com${target}`)
-      return new Response(response.body, {
-        headers: { 'content-type': 'application/json' }
-      })
-    }
-
-    // Static assets
-    return env.ASSETS.fetch(request)
-  },
-} satisfies ExportedHandler<Env>
+  // Let Cloudflare Pages handle static assets and client-side routing
+  return context.next()
+}
