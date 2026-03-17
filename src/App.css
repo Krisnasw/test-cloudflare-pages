@@ -1,13 +1,202 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Custom utilities not in Tailwind */
+@theme {
+  --color-brand: #6366f1;
+  --color-brand-light: #818cf8;
+  --color-brand-dark: #4f46e5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #0a0a0f;
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Layout ── */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+/* ── Navbar ── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  height: 60px;
+  background: rgba(10, 10, 15, 0.75);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.nav-brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #818cf8, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav-links a {
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-links a:hover {
+  color: #e2e8f0;
+  background: rgba(99, 102, 241, 0.12);
+}
+
+/* ── Page ── */
 .page {
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.35s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.75rem;
+  background: linear-gradient(135deg, #f1f5f9 30%, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Cards ── */
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.card:hover {
+  background: rgba(99, 102, 241, 0.05);
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.card h3 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6366f1;
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.card-label {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 0.4rem;
+}
+
+.code-block {
+  display: block;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: #818cf8;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  overflow-x: auto;
+}
+
+/* ── API card ── */
+.api-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.api-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #6366f1, #818cf8, #a5b4fc);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #818cf8;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.post-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  text-transform: capitalize;
+}
+
+.post-body {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+.card-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 0.85rem;
+}
+
+.user-id {
+  font-size: 0.78rem;
+  color: #475569;
+  font-family: monospace;
 }

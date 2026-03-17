@@ -1,4 +1,4 @@
-import { createRouter, createRootRoute, createRoute, Outlet } from '@tanstack/react-router'
+import { createRouter, createRootRoute, createRoute, Outlet, Link } from '@tanstack/react-router'
 import { getRuntimeConfig } from './lib/runtimeConfig'
 
 // Root route component
@@ -9,8 +9,8 @@ function RootComponent() {
       <nav className="navbar">
         <a href="/" className="nav-brand">{appTitle || 'Default Title'}</a>
         <div className="nav-links">
-          <a href="/">Home</a>
-          <a href="/api-data">API Data</a>
+          <Link to="/" activeProps={{ style: { color: '#e2e8f0', background: 'rgba(99,102,241,0.15)' } }}>Home</Link>
+          <Link to="/api-data" activeProps={{ style: { color: '#e2e8f0', background: 'rgba(99,102,241,0.15)' } }}>API Data</Link>
         </div>
       </nav>
       <main className="main-content">
