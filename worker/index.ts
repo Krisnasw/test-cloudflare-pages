@@ -23,7 +23,7 @@ const SSR_HTML = `<!doctype html>
               <span class="font-bold text-xl text-gray-900">${APP_TITLE}</span>
               <div class="flex gap-6">
                 <a href="/" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Home</a>
-                <a href="/data" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Data</a>
+                <a href="/api-data" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">API Data</a>
               </div>
             </div>
           </div>
@@ -61,7 +61,12 @@ export default {
     }
 
     // CSR routes - serve index.html with Tailwind CDN
-    if (pathname === '/data' || pathname.startsWith('/data')) {
+    if (
+      pathname === '/data' ||
+      pathname.startsWith('/data') ||
+      pathname === '/api-data' ||
+      pathname.startsWith('/api-data')
+    ) {
       try {
         const indexResponse = await env.ASSETS.fetch(new URL('https://localhost/index.html'))
         const html = await indexResponse.text()
