@@ -1,12 +1,13 @@
 import { createRouter, createRootRoute, createRoute, Outlet } from '@tanstack/react-router'
+import { getRuntimeConfig } from './lib/runtimeConfig'
 
 // Root route component
 function RootComponent() {
-  const appTitle = import.meta.env.VITE_APP_TITLE || 'Default Title'
+  const { appTitle } = getRuntimeConfig()
   return (
     <div className="app-container">
       <nav className="navbar">
-        <a href="/" className="nav-brand">{appTitle}</a>
+        <a href="/" className="nav-brand">{appTitle || 'Default Title'}</a>
         <div className="nav-links">
           <a href="/">Home</a>
           <a href="/api-data">API Data</a>
@@ -31,16 +32,15 @@ const indexRoute = createRoute({
     console.log('Loading home route')
   },
   component: function Index() {
-    const appTitle = import.meta.env.VITE_APP_TITLE || 'Default Title'
-    const apiUrl = import.meta.env.VITE_API_URL || 'No API URL'
+    const { appTitle, apiUrl } = getRuntimeConfig()
 
     return (
       <div className="page">
-        <h1 className="page-title">{appTitle}</h1>
+        <h1 className="page-title">{appTitle || 'Default Title'}</h1>
         <div className="card">
           <h3>Configuration</h3>
           <p className="card-label">API URL:</p>
-          <code className="code-block">{apiUrl}</code>
+          <code className="code-block">{apiUrl || 'No API URL'}</code>
         </div>
         <div className="card">
           <h3>Welcome</h3>
@@ -67,7 +67,8 @@ const apiDataRoute = createRoute({
     await new Promise(resolve => setTimeout(resolve, 50))
   },
   loader: async (): Promise<PostData> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/1`)
+    const { apiUrl } = getRuntimeConfig()
+    const response = await fetch(`${apiUrl || 'https://jsonplaceholder.typicode.com'}/posts/1`)
     if (!response.ok) {
       throw new Error('Failed to fetch data')
     }
